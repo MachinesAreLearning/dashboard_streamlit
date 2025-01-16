@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 
-def load_and_filter_data(division=None, region=None, market=None):
+def load_and_filter_data(division=None, region=None, market=None,branch=None):
     """Load and filter data based on user selections"""
     try:
         # Load the data
@@ -17,7 +17,8 @@ def load_and_filter_data(division=None, region=None, market=None):
             df = df[df['Region'] == region]
         if market and market != "All Markets":
             df = df[df['Market'] == market]
-        
+        if branch and branch != "All":
+            df = df[df['Branch'] == branch]
         return df
     
     except Exception as e:

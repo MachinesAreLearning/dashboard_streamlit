@@ -1,0 +1,309 @@
+/* debug_styles.css */
+
+.debug-mode-active {
+    border: 2px solid #0052CC;
+    border-radius: 5px;
+    padding: 5px;
+    position: relative;
+}
+
+.debug-mode-active::before {
+    content: "Debug";
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    background: #0052CC;
+    color: white;
+    padding: 0 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.debug-change-indicator {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.85em;
+    padding: 2px 6px;
+    margin-left: 6px;
+    border-radius: 4px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.debug-increase {
+    background-color: rgba(64, 192, 87, 0.1);
+    color: #2b8a3e;
+}
+
+.debug-decrease {
+    background-color: rgba(250, 82, 82, 0.1);
+    color: #c92a2a;
+}
+
+.debug-unchanged {
+    background-color: rgba(173, 181, 189, 0.1);
+    color: #495057;
+}
+
+.debug-tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted #0052CC;
+    cursor: help;
+}
+
+.debug-tooltip .tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -110px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+}
+
+.debug-tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.debug-tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.impact-analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+.impact-analysis-table th {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.impact-analysis-table td {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+}
+
+.impact-analysis-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.impact-analysis-table .metric-name {
+    font-weight: 500;
+    color: #0052CC;
+}
+
+.impact-analysis-table .impact-positive {
+    color: #40c057;
+    font-weight: 500;
+}
+
+.impact-analysis-table .impact-negative {
+    color: #fa5252;
+    font-weight: 500;
+}
+
+.impact-analysis-table .total-row {
+    background-color: #f0f0f0;
+    font-weight: 700;
+}
+
+.comparison-summary {
+    padding: 15px;
+    background-color: #f0f7ff;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.comparison-summary h4 {
+    color: #0052CC;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.top-impact-item {
+    padding: 8px 10px;
+    margin: 5px 0;
+    border-left: 3px solid;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 0 3px 3px 0;
+}
+
+.top-impact-positive {
+    border-color: #40c057;
+}
+
+.top-impact-negative {
+    border-color: #fa5252;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.highlight-row {
+    animation: highlightPulse 1.5s 2;
+}
+
+@keyframes highlightPulse {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(0, 82, 204, 0.1); }
+    100% { background-color: transparent; }
+}
+
+/* Strikethrough for previous values */
+.previous-value {
+    text-decoration: line-through;
+    color: #adb5bd;
+    margin-right: 5px;
+}
+
+/* Debug header styling */
+.debug-header {
+    background-color: #0052CC;
+    color: white;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.debug-header h3 {
+    margin: 0;
+}
+
+.version-pill {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Filter panel styling in debug mode */
+.debug-filters {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.debug-filters .filter-title {
+    font-weight: 600;
+    color: #0052CC;
+    margin-bottom: 10px;
+}
+
+/* Comparison toggle button */
+.debug-toggle {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.debug-toggle.active {
+    background-color: #0052CC;
+    color: white;
+}
+
+/* Tooltip for showing impact calculation */
+.impact-calculation-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.impact-calculation-tooltip .tooltip-content {
+    visibility: hidden;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    padding: 10px;
+    position: absolute;
+    z-index: 10;
+    width: 250px;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -125px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.impact-calculation-tooltip:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+}
+
+.impact-calculation-tooltip .tooltip-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #0052CC;
+}
+
+.impact-calculation-tooltip .calculation-step {
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.impact-calculation-tooltip .calculation-result {
+    margin-top: 8px;
+    font-weight: 600;
+}
+
+/* Side-by-side comparison styling */
+.side-by-side {
+    display: flex;
+    gap: 20px;
+}
+
+.version-card {
+    flex: 1;
+    padding: 15px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.version-card.previous {
+    border-left: 4px solid #adb5bd;
+}
+
+.version-card.current {
+    border-left: 4px solid #0052CC;
+}
+
+.version-card .card-header {
+    font-weight: 600;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e9ecef;
+}

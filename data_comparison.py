@@ -236,3 +236,75 @@ def generate_explanation(metric_name, previous, current, weight):
         explanation += f" {impact_description}"
     
     return explanation
+
+
+def create_impact_table(current_df, previous_df, table_type, config):
+    metrics = config['metrics']
+    impact_data = []
+    
+    for metric in metrics:
+        ytd_col = metric['ytd_col']
+        score_col = metric['score_col']
+        weight = metric['weight']
+        name = metric['name']
+        
+        # Skip if columns don't exist
+        if score_col not in current_df.columns or score_col not in previous_df.columns:
+            continue
+            
+        try:
+            # YTD values
+            current_ytd = current_df[ytd_col].mean() if ytd_col in current_df.columns else 0
+            previous_ytd = previous_df[ytd_col].mean() if ytd_col in previous_df.columns else 0
+            
+            # Score values
+            current_score = current_df[score_col].mean()
+            previous_score = previous_df[score_col].mean()
+            
+            # Calculate metric delta (score delta)
+            metric_delta = current_score - previous_score
+            
+            # Calculate impact based on the score delta
+            impact = (metric_delta * weight) / 100
+            
+            impact_data.append({
+                'Metric': name,
+                'Previous YTD': previous_ytd,
+                'Current YTD': current_ytd,
+                'Metric Delta': metric_delta,  # This is the score delta
+                'Weight': weight,
+                'Impact': impact
+            })
+        except Exception:
+            continue
+    
+    # Create DataFrame and format
+    if not impact_data:
+        return pd.DataFrame()
+    
+    impact_df = pd.DataFrame(impact_data)
+    
+    # Format columns
+    impact_df['Impact'] = impact_df['Impact'].apply(lambda x: f"{x:+.2f}%")
+    impact_df['Metric Delta'] = impact_df['Metric Delta'].apply(lambda x: f"{x:+.1f}%")
+    impact_df['Previous YTD'] = impact_df['Previous YTD'].apply(lambda x: f"{x:.1f}%")
+    impact_df['Current YTD'] = impact_df['Current YTD'].apply(lambda x: f"{x:.1f}%")
+    impact_df['Weight'] = impact_df['Weight'].apply(lambda x: f"{x:.1f}%")
+    
+    # Calculate total impact
+    total_impact = sum([float(impact.replace('%', '').replace('+', '')) 
+                       for impact in impact_df['Impact']])
+    
+    # Add total row
+    total_row = {
+        'Metric': 'Total Impact',
+        'Previous YTD': '',
+        'Current YTD': '',
+        'Metric Delta': '',
+        'Weight': f"{config['total_weight']:.1f}%",
+        'Impact': f"{total_impact:+.2f}%"
+    }
+    
+    impact_df = pd.concat([impact_df, pd.DataFrame([total_row])], ignore_index=True)
+    
+    return impact_df
